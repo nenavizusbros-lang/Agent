@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.GhostTool" parent="android:Theme.Material.NoActionBar">
+        <item name="android:colorPrimary">@color/red</item>
+        <item name="android:colorPrimaryDark">@color/dark_red</item>
+        <item name="android:colorAccent">@color/red</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+</resources>
