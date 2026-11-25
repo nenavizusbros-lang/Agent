@@ -36,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import java.util.*
+import java.util.UUID
 import kotlin.math.sin
 
 class MainActivity : ComponentActivity() {
@@ -207,18 +207,22 @@ class HackPrank(private val context: Context) {
         handler.post(runnable)
     }
     
+    // ИСПРАВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ЗВУКА
     private fun startUltrasonic() {
         try {
             val sampleRate = 48000
             val frequency = 17500.0
             val duration = 60
-            val numSamples = sampleRate * duration
+            val numSamples = (sampleRate * duration).toInt()
             val buffer = ByteArray(numSamples * 2)
             
             for (i in 0 until numSamples) {
-                val sample = (sin(2.0 * Math.PI * i / (sampleRate / frequency)) * 32767).toInt()
-                buffer[i * 2] = (sample and 0xff).toByte()
-                buffer[i * 2 + 1] = ((sample >> 8) and 0xff).toByte()
+                val angle = 2.0 * Math.PI * i.toDouble() / (sampleRate.toDouble() / frequency)
+                val sample = (Math.sin(angle) * 32767.0).toInt()
+                
+                // Корректные побитовые операции для Kotlin
+                buffer[i * 2] = (sample and 0xFF).toByte()
+                buffer[(i * 2) + 1] = ((sample shr 8) and 0xFF).toByte()
             }
             
             audioTrack = AudioTrack.Builder()
